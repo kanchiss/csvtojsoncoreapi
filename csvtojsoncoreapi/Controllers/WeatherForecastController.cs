@@ -40,7 +40,7 @@ namespace csvtojsoncoreapi.Controllers
         public IList<Dictionary<string, string>> GetCSVToJSON()
         {
             var csv = new List<string[]>();
-            var file = System.IO.File.ReadAllLines(@"E:\KANCHI\PHOTO\kanchi.csv");
+            var file = System.IO.File.ReadAllLines(@"E:\KANCHI\kanchi.csv");
             foreach (string line in file)
                 csv.Add(line.Split(','));
             var key = file[0].Split(',');
@@ -56,8 +56,6 @@ namespace csvtojsoncoreapi.Controllers
                 data.Add(objResult);
             }
 
-            jsonData = JsonConvert.SerializeObject(data);
-
             return data;
 
         }
@@ -66,7 +64,7 @@ namespace csvtojsoncoreapi.Controllers
         public string GetCSVToJSONString()
         {
             var csv = new List<string[]>();
-            var file = System.IO.File.ReadAllLines(@"E:\KANCHI\PHOTO\kanchi.csv");
+            var file = System.IO.File.ReadAllLines(@"E:\KANCHI\kanchi.csv");
             foreach (string line in file)
                 csv.Add(line.Split(','));
             var key = file[0].Split(',');
@@ -88,10 +86,36 @@ namespace csvtojsoncoreapi.Controllers
 
         }
 
+        [HttpGet("readcsvfromsolutiontojsonstring")]
+        public string GetReadCSVFromSolutionToJSON()
+        {
+            var csv = new List<string[]>();
+            var file = System.IO.File.ReadAllLines(@"Files\kanchi.csv");
+            foreach (string line in file)
+                csv.Add(line.Split(','));
+            var key = file[0].Split(',');
+
+            var data = new List<Dictionary<string, string>>();
+
+            for (int i = 1; i < file.Length; i++)
+            {
+                var objResult = new Dictionary<string, string>();
+                for (int j = 0; j < key.Length; j++)
+                    objResult.Add(key[j], csv[i][j]);
+
+                data.Add(objResult);
+            }
+
+            
+
+            return JsonConvert.SerializeObject(data);
+
+        }
+
         [HttpGet("jsontocsv")]
         public string GetJSONToCSV()
         {
-            jsonData = "[{\"Emp\":\"200000\",\"Job\":\"2001010\",\"Phase\":\"1200000\",\"Day\":\"Mon\",\"Hours\":\"8\"},{\"Emp\":\"200000\",\"Job\":\"2001010\",\"Phase\":\"1200000\",\"Day\":\"Tue\",\"Hours\":\"10\"},{\"Emp\":\"200000\",\"Job\":\"2001010\",\"Phase\":\"1300000\",\"Day\":\"Wed\",\"Hours\":\"8\"},{\"Emp\":\"200000\",\"Job\":\"2001010\",\"Phase\":\"1200000\",\"Day\":\"Thu\",\"Hours\":\"8\"},{\"Emp\":\"200000\",\"Job\":\"2001010\",\"Phase\":\"1200000\",\"Day\":\"Fri\",\"Hours\":\"6\"},{\"Emp\":\"300000\",\"Job\":\"3001000\",\"Phase\":\"1200000\",\"Day\":\"Mon\",\"Hours\":\"8\"},{\"Emp\":\"300000\",\"Job\":\"3001000\",\"Phase\":\"1300000\",\"Day\":\"Tue\",\"Hours\":\"8\"},{\"Emp\":\"300000\",\"Job\":\"3001000\",\"Phase\":\"1200000\",\"Day\":\"Wed\",\"Hours\":\"8\"},{\"Emp\":\"300000\",\"Job\":\"3001000\",\"Phase\":\"1200000\",\"Day\":\"Thu\",\"Hours\":\"8\"},{\"Emp\":\"300000\",\"Job\":\"3001000\",\"Phase\":\"1300000\",\"Day\":\"Fri\",\"Hours\":\"8\"}]";
+            jsonData = "[{\"Emp\":\"200000\",\"Hours\":\"8\"},{\"Emp\":\"200000\",\"Hours\":\"10\"},{\"Emp\":\"200000\",\"Hours\":\"8\"},{\"Emp\":\"200000\",\"Hours\":\"8\"},{\"Emp\":\"200000\",\"Hours\":\"6\"},{\"Emp\":\"300000\",\"Hours\":\"8\"},{\"Emp\":\"300000\",\"Hours\":\"8\"},{\"Emp\":\"300000\",\"Hours\":\"8\"},{\"Emp\":\"300000\",\"Hours\":\"8\"},{\"Emp\":\"300000\",\"Hours\":\"8\"}]";
 
             var data = JsonConvert.DeserializeObject<ExpandoObject[]>(jsonData);
 
